@@ -1,0 +1,1 @@
+https://api.thegraph.com/subgraphs/name/hrpalencia/w3musictestnet

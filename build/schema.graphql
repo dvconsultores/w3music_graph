@@ -1,0 +1,92 @@
+type Serie @entity {
+  id: ID!
+  typetoken_id: String!
+  object_event: Boolean!
+  title: String!
+  description: String
+  media: String!
+  extra: String
+  reference: String
+  issued_at: String
+  starts_at: String
+  updated_at: String
+  expires_at: String
+  creator_id: String!
+  price: BigDecimal
+  price_near: BigDecimal
+  nft_amount_sold: BigInt!
+  supply: BigInt!
+  nftsold: BigInt!
+  redeemerevents: BigInt!
+  aproved_event: BigInt!
+  redeemerobjects: BigInt!
+  aproved_objects: BigInt!
+  copies: BigInt
+  is_mintable: Boolean!
+  fecha: BigInt!
+  tokens: [Nft!]! @derivedFrom(field: "metadata")
+}
+
+type Nft @entity {
+  id: ID!
+  serie_id: String!
+  owner_id: String!
+  title: String!
+  metadata: Serie!
+  fecha: BigInt!
+  typetoken_id: String!
+  offer: [Offer!]! @derivedFrom(field: "data_nft")
+}
+
+type Controlaforo @entity {
+  id: ID!
+  owner_id: String!
+  token_object_id: String!
+  event_id: String!
+  user_burn: String!
+  fecha: BigInt!
+  aproved: Boolean!
+}
+
+type Controlobject @entity {
+  id: ID!
+  owner_id: String!
+  token_object_id: String!
+  event_id: String!
+  user_burn: String!
+  fecha: BigInt!
+  aproved: Boolean!
+}
+
+type Market @entity {
+  id: ID!
+  artist_id: String!
+  typetoken_id: String!
+  serie_id: String!
+  token_id: String!
+  nft_contract_id: String!
+  owner_id: String!
+  approval_id: Int!
+  started_at: String
+  end_price: String
+  ended_at: String
+  ft_token_id: String
+  is_auction: Boolean
+  price: BigInt!
+  price_near: BigDecimal!
+  transaction_fee: String!
+}
+
+type Offer @entity {
+  id: ID!
+  data_nft: Nft!
+  buyer_id: String!
+  nft_contract_id: String!
+  token_id: String!
+  serie_id: String!
+  artist_id: String!
+  typetoken_id: String!
+  ft_token_id: String!
+  price: BigInt!
+  price_near: BigDecimal!
+}
