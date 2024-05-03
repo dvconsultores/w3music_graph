@@ -1,3 +1,21 @@
+type User @entity {
+  id: ID!
+  artist_name: String!
+  public_url: String!
+  age: BigInt!,
+  location: String!
+  youare: String!
+  email: String!
+  music_genre: BigInt!
+  description: String!
+  wallet: String!
+}
+
+type Gender @entity {
+  id: ID!
+  name: String!
+}
+
 type Serie @entity {
   id: ID!
   typetoken_id: String!

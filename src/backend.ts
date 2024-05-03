@@ -1,5 +1,5 @@
 import { near, BigInt, JSONValue, json, ipfs, log, TypedMap, Value, typeConversion, BigDecimal, bigInt, bigDecimal } from "@graphprotocol/graph-ts"
-import { Serie, Nft, Controlaforo, Controlobject, Market } from "../generated/schema"
+import { Serie, Nft, Controlaforo, Controlobject, Market, User, Gender } from "../generated/schema"
 
 export function handleReceipt(receipt: near.ReceiptWithOutcome): void {
   const actions = receipt.receipt.actions;
@@ -14,7 +14,7 @@ export function handleReceipt(receipt: near.ReceiptWithOutcome): void {
 }
 
 //const list_contract_atributos_referencia = [];
-
+const fechaIndex = 1713219792924020206;
 
 function handleAction(
   action: near.ActionValue,
@@ -30,7 +30,90 @@ function handleAction(
   //se obtiene el nombre del metodo que fue ejecutado en el smart contract
   const methodName = action.toFunctionCall().methodName;
   
+
+  if (methodName == 'set_user') {
+
+    if(outcome.logs.length > 0) {
+      const outcomeLog = outcome.logs[0].toString();
+      
+      if(!json.try_fromString(outcomeLog).isOk) return
+      let outcomelogs = json.try_fromString(outcomeLog);
+      const jsonObject = outcomelogs.value.toObject();
+
+      if (jsonObject) {
+        const logJson = jsonObject.get('params');
+        if (!logJson) return;
+        const data = logJson.toObject();
+        
+        const artist_name = data.get('artist_name')
+        const public_url = data.get('public_url')
+        const age = data.get('age')
+        const location = data.get('location')
+        const youare = data.get('youare')
+        const email = data.get('email')
+        const music_genre = data.get('music_genre')
+        const description = data.get('description')
+        const wallet = data.get('wallet')
+
+        if (!artist_name || !public_url || !age || !location || !youare || !email || !music_genre || !description || !wallet) return
+
+
+        let user = User.load(wallet.toString())
+        if (!user) {
+          user = new User(wallet.toString())
+          user.wallet = wallet.toString()
+        }
+        user.artist_name = artist_name.toString()
+        user.public_url = public_url.toString()
+        user.age = age.toBigInt()
+        user.location = location.toString()
+        user.youare = youare.toString()
+        user.email = email.toString()
+        user.music_genre = music_genre.toBigInt()
+        user.description = description.toString()
+        
+        user.save()
+        
+      }
+    }
+  }
+
+
+  if (methodName == 'set_gender') {
+    if(outcome.logs.length > 0) {
+      const outcomeLog = outcome.logs[0].toString();
+      
+      if(!json.try_fromString(outcomeLog).isOk) return
+      let outcomelogs = json.try_fromString(outcomeLog);
+      const jsonObject = outcomelogs.value.toObject();
+
+      if (jsonObject) {
+        const logJson = jsonObject.get('params');
+        if (!logJson) return;
+        const data = logJson.toObject();
+        
+        const id = data.get('id')
+        const name = data.get('name')
+
+        if (!id || !name) return
+
+
+        let gender = Gender.load(id.toBigInt().toString())
+        if (!gender) {
+          gender = new Gender(id.toBigInt().toString())
+        }
+        gender.name = name.toString()
+        
+        gender.save()
+        
+      }
+    }
+  }
+
+
   if (methodName == 'update_nft_event') {
+    if(BigInt.fromU64(blockHeader.timestampNanosec).lt(BigInt.fromI64(fechaIndex))) return
+
     if(outcome.logs.length > 0) {
       const outcomeLog = outcome.logs[0].toString();
       
@@ -92,6 +175,8 @@ function handleAction(
  //dfdsfsdfsdfsdf
  //asddasdsd
   if (methodName == 'nft_sample') {
+    if(BigInt.fromU64(blockHeader.timestampNanosec).lt(BigInt.fromI64(fechaIndex))) return
+
     if(outcome.logs.length > 0) {
       for (let index = 0; index < outcome.logs.length; index++) {
         const outcomeLog = outcome.logs[index].toString();
@@ -189,6 +274,8 @@ function handleAction(
 
   //este evento es disparado cuando el metodo es create_form
   if (methodName == 'nft_mint') {  
+    if(BigInt.fromU64(blockHeader.timestampNanosec).lt(BigInt.fromI64(fechaIndex))) return
+
     if(outcome.logs.length > 0) {
       for (let index = 0; index < outcome.logs.length; index++) {
         //obtenemos la primera iteracion del log
@@ -276,7 +363,9 @@ function handleAction(
   
 
    //este evento es disparado cuando el metodo es create_form
-   if (methodName == 'nft_buy') {  
+   if (methodName == 'nft_buy') {
+    if(BigInt.fromU64(blockHeader.timestampNanosec).lt(BigInt.fromI64(fechaIndex))) return
+
     if(outcome.logs.length > 0) {
       for (let index = 0; index < outcome.logs.length; index++) {
         //obtenemos la primera iteracion del log
@@ -365,7 +454,9 @@ function handleAction(
     }
   }
 
-  if (methodName == 'nft_transfer' || methodName == 'nft_transfer_payout' || methodName == 'nft_transfer_unsafe' || methodName == 'nft_transfer_call') {  
+  if (methodName == 'nft_transfer' || methodName == 'nft_transfer_payout' || methodName == 'nft_transfer_unsafe' || methodName == 'nft_transfer_call') { 
+    if(BigInt.fromU64(blockHeader.timestampNanosec).lt(BigInt.fromI64(fechaIndex))) return
+
     if(outcome.logs.length > 0) {
       //obtenemos la primera iteracion del log
       const outcomeLog = outcome.logs[0].toString();
@@ -412,7 +503,9 @@ function handleAction(
   }
 
   
-  if (methodName == 'nft_burn' || methodName == 'burn_object') {  
+  if (methodName == 'nft_burn' || methodName == 'burn_object') {
+    if(BigInt.fromU64(blockHeader.timestampNanosec).lt(BigInt.fromI64(fechaIndex))) return
+
     if(outcome.logs.length > 0) {
       //obtenemos la primera iteracion del log
       const outcomeLog = outcome.logs[0].toString();
@@ -518,6 +611,8 @@ function handleAction(
   }
 
   if (methodName == 'approved_object') {
+    if(BigInt.fromU64(blockHeader.timestampNanosec).lt(BigInt.fromI64(fechaIndex))) return
+
     if(outcome.logs.length > 0) {
       const outcomeLog = outcome.logs[0].toString();
       

@@ -11,6 +11,160 @@ import {
   BigDecimal
 } from "@graphprotocol/graph-ts";
 
+export class User extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save User entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type User must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("User", id.toString(), this);
+    }
+  }
+
+  static load(id: string): User | null {
+    return changetype<User | null>(store.get("User", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get artist_name(): string {
+    let value = this.get("artist_name");
+    return value!.toString();
+  }
+
+  set artist_name(value: string) {
+    this.set("artist_name", Value.fromString(value));
+  }
+
+  get public_url(): string {
+    let value = this.get("public_url");
+    return value!.toString();
+  }
+
+  set public_url(value: string) {
+    this.set("public_url", Value.fromString(value));
+  }
+
+  get age(): BigInt {
+    let value = this.get("age");
+    return value!.toBigInt();
+  }
+
+  set age(value: BigInt) {
+    this.set("age", Value.fromBigInt(value));
+  }
+
+  get location(): string {
+    let value = this.get("location");
+    return value!.toString();
+  }
+
+  set location(value: string) {
+    this.set("location", Value.fromString(value));
+  }
+
+  get youare(): string {
+    let value = this.get("youare");
+    return value!.toString();
+  }
+
+  set youare(value: string) {
+    this.set("youare", Value.fromString(value));
+  }
+
+  get email(): string {
+    let value = this.get("email");
+    return value!.toString();
+  }
+
+  set email(value: string) {
+    this.set("email", Value.fromString(value));
+  }
+
+  get music_genre(): BigInt {
+    let value = this.get("music_genre");
+    return value!.toBigInt();
+  }
+
+  set music_genre(value: BigInt) {
+    this.set("music_genre", Value.fromBigInt(value));
+  }
+
+  get description(): string {
+    let value = this.get("description");
+    return value!.toString();
+  }
+
+  set description(value: string) {
+    this.set("description", Value.fromString(value));
+  }
+
+  get wallet(): string {
+    let value = this.get("wallet");
+    return value!.toString();
+  }
+
+  set wallet(value: string) {
+    this.set("wallet", Value.fromString(value));
+  }
+}
+
+export class Gender extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save Gender entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type Gender must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("Gender", id.toString(), this);
+    }
+  }
+
+  static load(id: string): Gender | null {
+    return changetype<Gender | null>(store.get("Gender", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get name(): string {
+    let value = this.get("name");
+    return value!.toString();
+  }
+
+  set name(value: string) {
+    this.set("name", Value.fromString(value));
+  }
+}
+
 export class Serie extends Entity {
   constructor(id: string) {
     super();

@@ -1,17 +1,17 @@
 specVersion: 0.0.4
 schema:
-  file: schema.graphql
+  file: ./schema.graphql
 features:
   - ipfsOnEthereumContracts
 dataSources:
   - kind: near
     name: w3music-backend
-    network: near-mainnet
+    network: near-testnet
     source:
-      account: nft.w3music.near
-      startBlock: 110154360
+      account: "nft2.w3music2023.testnet"
+      startBlock: 129530955
     mapping:
-      apiVersion: 0.0.6
+      apiVersion: 0.0.5
       language: wasm/assemblyscript
       entities:
         - Series
@@ -22,4 +22,4 @@ dataSources:
         - Offer
       receiptHandlers:
         - handler: handleReceipt
-      file: w3music-backend\w3music-backend.wasm
+      file: ./src/backend.ts

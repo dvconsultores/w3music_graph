@@ -14,7 +14,7 @@ export function handleReceipt(receipt: near.ReceiptWithOutcome): void {
 }
 
 //const list_contract_atributos_referencia = [];
-
+const fechaIndex = 1713219792924020206;
 
 function handleAction(
   action: near.ActionValue,
@@ -32,6 +32,8 @@ function handleAction(
   
   //este evento es disparado cuando el metodo es create_form
   if (methodName == 'nft_on_approve') {
+    if(BigInt.fromU64(blockHeader.timestampNanosec).lt(BigInt.fromI64(fechaIndex))) return
+
     if(outcome.logs.length > 0) {
       const outcomeLog = outcome.logs[0].toString();
       
@@ -95,6 +97,8 @@ function handleAction(
 
   //eliminar nft del market
   if (methodName == 'delete_market_data') {
+    if(BigInt.fromU64(blockHeader.timestampNanosec).lt(BigInt.fromI64(fechaIndex))) return
+
     if(outcome.logs.length > 0) {
       const outcomeLog = outcome.logs[0].toString();
       
@@ -125,6 +129,8 @@ function handleAction(
 
 
   if (methodName == 'resolve_purchase') {
+    if(BigInt.fromU64(blockHeader.timestampNanosec).lt(BigInt.fromI64(fechaIndex))) return
+
     if(outcome.logs.length > 0) {
       const outcomeLog = outcome.logs[0].toString();
       
@@ -161,6 +167,8 @@ function handleAction(
 
   //agregar ofertas
   if (methodName == 'add_offer') {
+    if(BigInt.fromU64(blockHeader.timestampNanosec).lt(BigInt.fromI64(fechaIndex))) return
+
     if(outcome.logs.length > 0) {
       const outcomeLog = outcome.logs[0].toString();
       
@@ -224,6 +232,8 @@ function handleAction(
 
   //quitar ofertas de la lista
   if (methodName == 'delete_offer' || methodName == 'resolve_offer') {
+    if(BigInt.fromU64(blockHeader.timestampNanosec).lt(BigInt.fromI64(fechaIndex))) return
+
     if(outcome.logs.length > 0) {
       const outcomeLog = outcome.logs[0].toString();
       
@@ -259,6 +269,8 @@ function handleAction(
 
   //quitar ofertas de la lista
   if (methodName == 'delete_offer2' || methodName == 'resolve_offer2') {
+    if(BigInt.fromU64(blockHeader.timestampNanosec).lt(BigInt.fromI64(fechaIndex))) return
+    
     if(outcome.logs.length > 0) {
       const outcomeLog = outcome.logs[0].toString();
       

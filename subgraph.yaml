@@ -6,12 +6,12 @@ features:
 dataSources:
   - kind: near
     name: w3music-backend
-    network: near-testnet
+    network: near-mainnet
     source:
-      account: "nft.w3music2023.testnet"
-      startBlock: 126689184
+      account: "nft.w3music.near"
+      startBlock: 110154360
     mapping:
-      apiVersion: 0.0.5
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - Series
